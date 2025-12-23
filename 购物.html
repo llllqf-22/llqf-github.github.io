@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<!-- 文档类型声明，告诉浏览器这是 HTML5 文档 -->
+<html lang="zh-CN">
+<!-- HTML 根标签，设置页面语言为简体中文 -->
+<head>
+    <!-- 头部开始，包含元数据和页面标题等 -->
+
+    <meta charset="UTF-8">
+    <!-- 设置文档字符编码为 UTF-8，确保中文正常显示 -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 视口设置，使页面在移动设备上自适应，初始缩放比例为1 -->
+
+    <title>沃尼玛商城，梁乔风25216950112</title>
+    <!-- 网页标题，显示在浏览器标签页上 -->
+
+    <style>
+        /* --- CSS 样式区域开始 --- */
+
+        /* --- 基础样式 --- */
+        
+        /* :root 伪类定义全局 CSS 变量，方便维护和修改 */
+        :root {
+            --primary-color: #007bff; /* 主色调 (蓝色) */
+            --bg-color: #f4f4f4; /* 页面背景色 (浅灰) */
+            --card-bg: #fff; /* 卡片背景色 (白色) */
+            --sidebar-width: 200px; /* 侧边栏固定宽度 */
+        }
+
+        /* 设置页面整体字体和背景 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 字体栈 */
+            margin: 0; /* 去掉默认边距 */
+            background-color: var(--bg-color); /* 使用变量设置背景色 */
+        }
+
+        /* 所有按钮鼠标悬停时显示手型指针 */
+        button {
+            cursor: pointer;
+        }
+
+        /* --- 顶部导航栏样式 --- */
+        header {
+            background-color: #333; /* 深灰色背景 */
+            color: white; /* 白色文字 */
+            padding: 1rem 2rem; /* 上下1倍根元素字体大小，左右2倍 */
+            display: flex; /* 使用 Flexbox 布局 */
+            justify-content: space-between; /* 子元素左右两端对齐 */
+            align-items: center; /* 子元素垂直居中 */
+            position: sticky; /* 粘性定位，滚动时固定在顶部 */
+            top: 0; /* 距离顶部为0 */
+            z-index: 100; /* 设置较高的堆叠顺序，确保在最上层 */
+        }
+
+        /* 网站 Logo 样式 */
+        .logo {
+            font-size: 1.5rem; /* 字体大小 */
+            font-weight: bold; /* 加粗 */
+        }
+
+        /* 搜索栏样式 */
+        .search-bar {
+            display: flex; /* Flexbox 布局 */
+            gap: 5px; /* 子元素之间的间隔 */
+        }
+
+        /* 搜索输入框样式 */
+        .search-bar input {
+            padding: 5px; /* 内边距 */
+            border-radius: 4px; /* 圆角 */
+            border: none; /* 去掉边框 */
+        }
+
+        /* 导航栏右侧按钮样式 (登录/购物车) */
+        .nav-actions button {
+            background: none; /* 透明背景 */
+            border: 1px solid white; /* 白色边框 */
+            color: white; /* 白色文字 */
+            padding: 5px 15px; /* 内边距 */
+            margin-left: 10px; /* 左外边距，与左边元素分开 */
+            border-radius: 4px; /* 圆角 */
+        }
+
+        /* 导航按钮悬停效果 */
+        .nav-actions button:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* 半透明白色背景 */
+        }
+
+        /* --- 主要内容布局 (侧边栏 + 商品列表) --- */
+        .main-layout {
+            max-width: 1200px; /* 最大宽度，在大屏幕上居中显示 */
+            margin: 20px auto; /* 上下边距20px，左右自动 (居中) */
+            display: flex; /* 使用 Flexbox 布局 */
+            gap: 20px; /* 子元素之间的间隔 */
+            padding: 0 1rem; /* 左右内边距，防止内容贴边 */
+        }
+
+        /* --- 侧边栏样式 --- */
+        .sidebar {
+            width: var(--sidebar-width); /* 宽度使用变量 */
+            background: var(--card-bg); /* 背景色使用变量 */
+            padding: 15px; /* 内边距 */
+            border-radius: 8px; /* 圆角 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            height: fit-content; /* 高度由内容决定 */
+        }
+
+        /* 侧边栏标题样式 */
+        .sidebar h3 {
+            margin-top: 0; /* 去掉默认上边距 */
+            border-bottom: 1px solid #eee; /* 底部浅灰色边框 */
+            padding-bottom: 10px; /* 底部内边距 */
+        }
+
+        /* 分类列表容器样式 */
+        .category-list {
+            padding: 0; /* 去掉内边距 */
+            margin: 0; /* 去掉外边距 */
+        }
+
+        /* 分类列表项样式 */
+        .category-list li {
+            list-style: none; /* 去掉列表默认样式 (圆点) */
+            padding: 8px 0; /* 上下内边距 */
+            cursor: pointer; /* 鼠标悬停时手型指针 */
+            transition: color 0.2s; /* 文字颜色变化添加0.2秒过渡动画 */
+        }
+
+        /* 分类列表项悬停效果 */
+        .category-list li:hover {
+            color: var(--primary-color); /* 变为主色调 */
+            font-weight: bold; /* 加粗 */
+        }
+
+        /* 当前选中分类的特殊样式 */
+        .category-list .active-category {
+            color: var(--primary-color); /* 主色调 */
+            font-weight: bold; /* 加粗 */
+            background-color: #e9ecef; /* 浅灰色背景 */
+            padding-left: 5px; /* 左边增加内边距 */
+            border-radius: 2px; /* 轻微圆角 */
+        }
+
+        /* --- 商品列表区域样式 --- */
+        .product-list-area {
+            flex-grow: 1; /* 占据 Flex 容器中所有剩余空间 */
+        }
+
+        /* 商品网格容器样式 */
+        .product-grid {
+            display: grid; /* 使用 CSS Grid 布局 */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            /* 自动填充列，每列最小250px，最大1份 (等分剩余空间) */
+            gap: 20px; /* 网格项之间的间隔 */
+        }
+
+        /* 单个商品卡片样式 */
+        .product-card {
+            background: var(--card-bg); /* 背景色使用变量 */
+            border-radius: 8px; /* 圆角 */
+            padding: 15px; /* 内边距 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+            text-align: center; /* 文字居中 */
+            transition: transform 0.2s; /* 添加变换效果的过渡动画 */
+        }
+
+        /* 商品卡片悬停效果 */
+        .product-card:hover {
+            transform: translateY(-5px); /* 向上移动5像素，产生浮动感 */
+        }
+
+        /* 商品图片占位样式 */
+        .product-img {
+            width: 100%; /* 宽度100%填满容器 */
+            height: 150px; /* 固定高度 */
+            background-color: #ddd; /* 默认背景色，图片加载前的占位色 */
+            object-fit: cover; /* 图片保持比例，覆盖整个容器 */
+            margin-bottom: 10px; /* 底部外边距 */
+        }
+
+        /* 商品价格样式 */
+        .price {
+            color: #e4393c; /* 红色 */
+            font-weight: bold; /* 加粗 */
+            font-size: 1.2rem; /* 字体大小 */
+            margin: 10px 0; /* 上下外边距 */
+        }
+
+        /* “加入购物车”按钮样式 */
+        .add-btn {
+            background-color: var(--primary-color); /* 使用主色调 */
+            color: white; /* 白色文字 */
+            border: none; /* 去掉边框 */
+            padding: 8px 16px; /* 内边距 */
+            border-radius: 4px; /* 圆角 */
+            width: 100%; /* 宽度100%填满容器 */
+        }
+
+        /* --- 模态框 (购物车/登录注册) 样式 --- */
+        /* 模态框背景层样式 */
+        #cart-modal,
+        #auth-modal {
+            display: none; /* 默认隐藏 */
+            position: fixed; /* 固定定位，相对于视口 */
+            top: 0;
+            left: 0;
+            width: 100%; /* 全宽 */
+            height: 100%; /* 全高 */
+            background: rgba(0, 0, 0, 0.5); /* 半透明白色背景 */
+            z-index: 200; /* 堆叠顺序，确保在最上层 */
+            justify-content: center; /* Flexbox 水平居中 */
+            align-items: center; /* Flexbox 垂直居中 */
+        }
+
+        /* 模态框内容容器样式 */
+        .modal-content {
+            background: white; /* 白色背景 */
+            padding: 20px; /* 内边距 */
+            border-radius: 8px; /* 圆角 */
+            width: 90%; /* 宽度占视口90% */
+            max-width: 500px; /* 最大宽度限制 */
+            position: relative; /* 相对定位，方便子元素绝对定位 */
+        }
+
+        /* 关闭按钮样式 (右上角的X) */
+        .close-btn {
+            float: right; /* 右浮动 */
+            font-size: 1.5rem; /* 字体大小 */
+            cursor: pointer; /* 手型指针 */
+        }
+
+        /* 购物车单个商品项样式 */
+        .cart-item {
+            display: flex; /* Flexbox 布局 */
+            justify-content: space-between; /* 左右两端对齐 */
+            border-bottom: 1px solid #eee; /* 底部浅灰色边框 */
+            padding: 10px 0; /* 上下内边距 */
+        }
+
+        /* 购物车总计样式 */
+        .cart-total {
+            text-align: right; /* 文字右对齐 */
+            margin-top: 20px; /* 上外边距 */
+            font-weight: bold; /* 加粗 */
+            font-size: 1.2rem; /* 字体大小 */
+        }
+
+        /* 登录/注册表单输入框样式 */
+        .auth-form input {
+            display: block; /* 块级显示，独占一行 */
+            width: 100%; /* 宽度100%填满容器 */
+            padding: 10px; /* 内边距 */
+            margin: 10px 0; /* 上下外边距 */
+            box-sizing: border-box; /* 盒模型：宽度和高度包含内边距和边框 */
+        }
+
+        /* 登录/注册表单按钮样式 */
+        .auth-form button {
+            width: 100%; /* 宽度100%填满容器 */
+            padding: 10px; /* 内边距 */
+            background-color: var(--primary-color); /* 使用主色调 */
+            color: white; /* 白色文字 */
+            border: none; /* 去掉边框 */
+        }
+
+        /* 登录/注册切换链接样式 */
+        .switch-auth {
+            text-align: center; /* 文字居中 */
+            margin-top: 10px; /* 上外边距 */
+            font-size: 0.9rem; /* 字体大小稍小 */
+            color: #666; /* 深灰色文字 */
+            cursor: pointer; /* 手型指针 */
+        }
+    </style>
+    <!-- CSS 样式区域结束 -->
+</head>
+<!-- 头部结束 -->
+
+<body>
+<!-- 页面主体内容开始 -->
+
+<!-- 顶部导航栏 -->
+<header>
+    <!-- 网站 Logo -->
+    <div class="logo">沃尼玛商城</div>
+
+    <!-- 搜索框区域 -->
+    <div class="search-bar">
+        <!-- 搜索输入框，onkeyup 事件触发搜索函数 -->
+        <input type="text" id="search-input" placeholder="搜索商品..." onkeyup="handleSearch()">
+    </div>
+
+    <!-- 导航栏右侧操作区 -->
+    <div class="nav-actions">
+        <!-- 用户欢迎信息，默认隐藏 -->
+        <span id="user-display" style="display:none; margin-right:10px;">
+            欢迎, <span id="username-span"></span>
+        </span>
+        <!-- 登录/注册按钮，点击打开登录注册模态框 -->
+        <button id="auth-btn" onclick="openAuthModal()">登录 / 注册</button>
+        <!-- 购物车按钮，显示购物车商品数量 -->
+        <button onclick="openCart()">
+            🛒 购物车 (<span id="cart-count">0</span>)
+        </button>
+    </div>
+</header>
+<!-- 顶部导航栏结束 -->
+
+<!-- 页面主要内容区域 (侧边栏 + 商品列表) -->
+<div class="main-layout">
+
+    <!-- 侧边栏：商品分类 -->
+    <div class="sidebar">
+        <h3>商品分类</h3>
+        <!-- 分类列表，通过 JavaScript 动态生成 -->
+        <ul id="category-list" class="category-list">
+            <!-- 列表项将由 JS 填充 -->
+        </ul>
+    </div>
+
+    <!-- 商品列表区域 -->
+    <div class="product-list-area">
+        <h2>商品列表</h2>
+        <!-- 商品网格容器，通过 JavaScript 动态生成商品卡片 -->
+        <div id="product-list" class="product-grid">
+            <!-- 商品卡片将由 JS 填充 -->
+        </div>
+    </div>
+
+</div>
+<!-- 主要内容区域结束 -->
+
+<!-- 购物车模态框 (弹窗) -->
+<div id="cart-modal">
+    <div class="modal-content">
+        <!-- 关闭按钮 -->
+        <span class="close-btn" onclick="closeCart()">&times;</span>
+        <h3>我的购物车</h3>
+        <!-- 购物车商品列表容器 -->
+        <div id="cart-items">
+            <!-- 默认提示信息，购物车为空时显示 -->
+            <p>购物车是空的</p>
+        </div>
+        <!-- 购物车总计 -->
+        <div class="cart-total">总计: ¥<span id="cart-total-price">0</span></div>
+        <!-- 结算按钮 -->
+        <button class="add-btn" style="margin-top:10px" onclick="checkout()">去结算</button>
+    </div>
+</div>
+
+<!-- 登录/注册模态框 (弹窗) -->
+<div id="auth-modal">
+    <div class="modal-content">
+        <!-- 关闭按钮 -->
+        <span class="close-btn" onclick="closeAuth()">&times;</span>
+
+        <!-- 登录表单，默认显示 -->
+        <div id="login-form" class="auth-form">
+            <h3>用户登录</h3>
+            <input type="text" id="login-user" placeholder="用户名">
+            <input type="password" placeholder="密码 (随意输入)">
+            <button onclick="handleLogin()">登录</button>
+            <!-- 切换到注册的链接 -->
+            <div class="switch-auth" onclick="toggleAuthMode()">没有账号？去注册</div>
+        </div>
+
+        <!-- 注册表单，默认隐藏 -->
+        <div id="register-form" class="auth-form" style="display:none;">
+            <h3>新用户注册</h3>
+            <input type="text" placeholder="用户名">
+            <input type="email" placeholder="邮箱">
+            <input type="password" placeholder="设置密码">
+            <button onclick="handleRegister()">注册</button>
+            <!-- 切换到登录的链接 -->
+            <div class="switch-auth" onclick="toggleAuthMode()">已有账号？去登录</div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript 代码区域开始 -->
+<script>
+    // ======================================================================
+    // --- 模拟数据 ---
+    // ======================================================================
+    // 定义商品数据数组，每个商品是一个对象
+    const productsData = [
+        // --- 电子产品 (Electronics) ---
+        { id: 1, name: "智能手机", price: 9999, category: "电子产品", img: "./img/手机.jpg" },
+        { id: 2, name: "降噪耳机", price: 3999, category: "电子产品", img: "./img/耳机.jpg" },
+        { id: 3, name: "机械键盘", price: 399, category: "电子产品", img: "./img/机械键盘.jpg" },
+
+        // --- 家居用品 (Home Goods) ---
+        { id: 4, name: "时尚茶几", price: 899, category: "家居用品", img: "./img/茶几.jpg" },
+        { id: 5, name: "沙发", price: 199, category: "家居用品", img: "./img/沙发.jpg" },
+        { id: 6, name: "扫地机器人", price: 2999, category: "家居用品", img: "./img/扫地机器人.jpg" },
+
+        // --- 食品饮料 (Food & Beverage) ---
+        { id: 7, name: "进口咖啡豆", price: 159, category: "食品饮料", img: "./img/咖啡豆.jpg" },
+        { id: 8, name: "有机牛奶", price: 68, category: "食品饮料", img: "./img/牛奶.jpg" },
+        { id: 9, name: "法国干红葡萄酒", price: 599, category: "食品饮料", img: "./img/葡萄酒.jpg" },
+    ];
+
+    // 从商品数据中提取所有不重复的分类，并在前面加上"所有商品"
+    // Set 对象用于去重，map 方法提取 category 属性
+    const categories = ["所有商品", ...new Set(productsData.map(p => p.category))];
+
+    // ======================================================================
+    // --- 状态管理 ---
+    // ======================================================================
+    let cart = []; // 购物车数组，存储已添加的商品
+    let currentUser = null; // 当前登录用户，null 表示未登录
+    let currentCategory = "所有商品"; // 当前选中的商品分类
+
+    // ======================================================================
+    // --- 初始化 ---
+    // ======================================================================
+    // 页面加载完成后执行初始化函数
+    window.onload = () => {
+        renderCategories(); // 渲染分类侧边栏
+        renderProducts(productsData); // 渲染所有商品列表
+    };
+
+    // ======================================================================
+    // --- 侧边分类逻辑 ---
+    // ======================================================================
+
+    /**
+     * 渲染商品分类列表到侧边栏
+     */
+    function renderCategories() {
+        const ul = document.getElementById('category-list'); // 获取侧边栏列表容器
+        ul.innerHTML = ""; // 清空现有内容，防止重复
+
+        // 遍历分类数组，为每个分类创建列表项
+        categories.forEach(cat => {
+            const li = document.createElement('li'); // 创建 li 元素
+            li.innerText = cat; // 设置文本内容为分类名
+            // 点击分类时，触发筛选函数
+            li.onclick = () => filterByCategory(cat);
+
+            // 如果当前分类是被选中的分类，添加高亮样式
+            if (cat === currentCategory) {
+                li.classList.add('active-category');
+            }
+
+            ul.appendChild(li); // 将列表项添加到列表中
+        });
+    }
+
+    /**
+     * 根据选中的分类筛选商品
+     * @param {string} category - 要筛选的分类名称
+     */
+    function filterByCategory(category) {
+        currentCategory = category; // 更新当前选中的分类
+        let filteredList; // 存储筛选后的商品列表
+
+        // 如果选中的是"所有商品"，显示全部
+        if (category === "所有商品") {
+            filteredList = productsData;
+        } else {
+            // 否则，筛选出属于该分类的商品
+            filteredList = productsData.filter(p => p.category === category);
+        }
+
+        // 重新渲染分类列表 (更新高亮) 和商品列表
+        renderCategories();
+        renderProducts(filteredList);
+    }
+
+    // ======================================================================
+    // --- 核心功能 ---
+    // ======================================================================
+
+    /**
+     * 渲染商品列表到页面
+     * @param {Array} list - 要渲染的商品数组
+     */
+    function renderProducts(list) {
+        const container = document.getElementById('product-list'); // 获取商品列表容器
+        container.innerHTML = ""; // 清空现有内容
+
+        // 如果列表为空，显示提示信息
+        if (list.length === 0) {
+            container.innerHTML = "<p style='text-align:center; padding: 20px;'>没有找到相关商品</p>";
+            return; // 结束函数执行
+        }
+
+        // 遍历商品数组，为每个商品创建卡片
+        list.forEach(product => {
+            const card = document.createElement('div'); // 创建卡片容器
+            card.className = 'product-card'; // 添加 CSS 类名
+
+            // 使用模板字符串设置卡片内部 HTML 结构
+            card.innerHTML = `
+                <img src="${product.img}" class="product-img" alt="${product.name}">
+                <h3>${product.name}</h3>
+                <p style="font-size:0.9rem; color:#666;">分类: ${product.category}</p>
+                <div class="price">¥${product.price}</div>
+                <button class="add-btn" onclick="addToCart(${product.id})">加入购物车</button>
+            `;
+
+            container.appendChild(card); // 将卡片添加到容器中
+        });
+    }
+
+    /**
+     * 处理搜索功能，根据输入的关键词筛选商品
+     */
+    function handleSearch() {
+        // 获取搜索输入框的值，并转为小写以便不区分大小写
+        const keyword = document.getElementById('search-input').value.toLowerCase();
+        let baseList; // 基准列表，基于当前分类
+
+        // 根据当前选中的分类确定要搜索的列表
+        if (currentCategory === "所有商品") {
+            baseList = productsData; // 搜索所有商品
+        } else {
+            // 只在当前分类中搜索
+            baseList = productsData.filter(p => p.category === currentCategory);
+        }
+
+        // 筛选出名称包含关键词的商品
+        const filtered = baseList.filter(p => p.name.toLowerCase().includes(keyword));
+        renderProducts(filtered); // 渲染筛选结果
+    }
+
+    /**
+     * 将指定商品添加到购物车
+     * @param {number} id - 商品ID
+     */
+    function addToCart(id) {
+        // 在商品数据中查找对应ID的商品
+        const product = productsData.find(p => p.id === id);
+        // 检查购物车中是否已存在该商品
+        const existingItem = cart.find(item => item.id === id);
+
+        if (existingItem) {
+            // 如果已存在，增加数量
+            existingItem.quantity += 1;
+        } else {
+            // 如果不存在，添加新商品，并设置初始数量为1
+            cart.push({ ...product, quantity: 1 });
+        }
+
+        updateCartUI(); // 更新购物车界面
+        alert(`已将 ${product.name} 加入购物车`); // 提示用户
+    }
+
+    /**
+     * 更新购物车界面显示 (数量和总价)
+     */
+    function updateCartUI() {
+        // 计算购物车中所有商品的总数量
+        const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        // 更新购物车按钮上的数量显示
+        document.getElementById('cart-count').innerText = totalCount;
+
+        const cartItemsContainer = document.getElementById('cart-items'); // 购物车商品列表容器
+        let totalPrice = 0; // 总价格，初始为0
+
+        // 如果购物车为空，显示提示信息
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = "<p>购物车是空的</p>";
+        } else {
+            cartItemsContainer.innerHTML = ""; // 清空现有内容
+            // 遍历购物车中的每个商品，生成HTML
+            cart.forEach(item => {
+                totalPrice += item.price * item.quantity; // 累加商品总价
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name} x ${item.quantity}</span>
+                        <span>¥${item.price * item.quantity}</span>
+                    </div>
+                `;
+            });
+        }
+        // 更新总计价格显示
+        document.getElementById('cart-total-price').innerText = totalPrice;
+    }
+
+    /**
+     * 打开购物车模态框
+     */
+    function openCart() {
+        document.getElementById('cart-modal').style.display = 'flex'; // 显示模态框
+        updateCartUI(); // 更新显示内容
+    }
+
+    /**
+     * 关闭购物车模态框
+     */
+    function closeCart() {
+        document.getElementById('cart-modal').style.display = 'none'; // 隐藏模态框
+    }
+
+    /**
+     * 结算购物车
+     */
+    function checkout() {
+        // 如果用户未登录，提示登录并打开登录框
+        if (!currentUser) {
+            alert("请先登录！");
+            closeCart(); // 关闭购物车
+            openAuthModal(); // 打开登录注册框
+        } else {
+            // 获取总价并显示结算成功消息
+            alert(`结算成功！共消费 ¥${document.getElementById('cart-total-price').innerText}`);
+            cart = []; // 清空购物车数组
+            updateCartUI(); // 更新界面
+            closeCart(); // 关闭购物车
+        }
+    }
+
+    // ======================================================================
+    // --- 登录/注册逻辑 ---
+    // ======================================================================
+
+    /**
+     * 打开登录/注册模态框
+     */
+    function openAuthModal() {
+        document.getElementById('auth-modal').style.display = 'flex';
+    }
+
+    /**
+     * 关闭登录/注册模态框
+     */
+    function closeAuth() {
+        document.getElementById('auth-modal').style.display = 'none';
+    }
+
+    /**
+     * 在登录和注册表单之间切换
+     */
+    function toggleAuthMode() {
+        const loginForm = document.getElementById('login-form');
+        const regForm = document.getElementById('register-form');
+        // 判断当前显示的是哪个表单，然后切换显示状态
+        if (loginForm.style.display === 'none') {
+            loginForm.style.display = 'block';
+            regForm.style.display = 'none';
+        } else {
+            loginForm.style.display = 'none';
+            regForm.style.display = 'block';
+        }
+    }
+
+    /**
+     * 处理用户登录
+     */
+    function handleLogin() {
+        const username = document.getElementById('login-user').value; // 获取输入的用户名
+        if (!username) return alert("请输入用户名"); // 简单验证
+
+        currentUser = username; // 更新当前用户状态
+        // 显示欢迎信息
+        document.getElementById('user-display').style.display = 'inline';
+        document.getElementById('username-span').innerText = currentUser;
+        // 更新按钮文字和点击事件为退出登录
+        document.getElementById('auth-btn').innerText = "退出登录";
+        document.getElementById('auth-btn').onclick = handleLogout;
+
+        closeAuth(); // 关闭模态框
+        alert("登录成功！"); // 提示用户
+    }
+
+    /**
+     * 处理用户退出登录
+     */
+    function handleLogout() {
+        currentUser = null; // 清空当前用户
+        // 隐藏欢迎信息
+        document.getElementById('user-display').style.display = 'none';
+        // 恢复按钮为登录状态
+        document.getElementById('auth-btn').innerText = "登录 / 注册";
+        document.getElementById('auth-btn').onclick = openAuthModal;
+        alert("已退出登录"); // 提示用户
+    }
+
+    /**
+     * 处理用户注册 (模拟)
+     */
+    function handleRegister() {
+        alert("注册成功，请直接登录"); // 提示用户
+        toggleAuthMode(); // 切换回登录表单
+    }
+
+    // ======================================================================
+    // --- 事件监听 ---
+    // ======================================================================
+    // 点击模态框背景 (非内容区域) 时关闭模态框
+    window.onclick = function (event) {
+        if (event.target == document.getElementById('cart-modal')) closeCart();
+        if (event.target == document.getElementById('auth-modal')) closeAuth();
+    }
+</script>
+<!-- JavaScript 代码区域结束 -->
+
+</body>
+<!-- 页面主体内容结束 -->
+</html>
+<!-- HTML 文档结束 -->
